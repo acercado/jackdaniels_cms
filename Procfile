@@ -1,0 +1,1 @@
+web: gunicorn jackdaniels_web.wsgi --log-file -
