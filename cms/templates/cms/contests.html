@@ -1,0 +1,234 @@
+{% extends "cms/base.html" %}
+
+{% load staticfiles %}
+
+
+{% block sidebar %}
+      <aside class="main-sidebar">
+
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+          <!-- Sidebar user panel (optional) -->
+          <div class="user-panel">
+            <div class="pull-left image">
+              <img src="{% static "dist/img/user2-160x160.jpg" %}" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+              <p>Alexander Pierce</p>
+              <!-- Status -->
+              <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+          </div>
+
+          <!-- search form (Optional) -->
+          <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+              <input type="text" name="q" class="form-control" placeholder="Search...">
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+              </span>
+            </div>
+          </form>
+          <!-- /.search form -->
+
+          <!-- Sidebar Menu -->
+          <ul class="sidebar-menu">
+            <li class="header">HEADER</li>
+            <!-- Optionally, you can add icons to the links -->
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul style="display: hidden;" class="treeview-menu">
+                <li class=""><a href="/"><i class="fa fa-circle-o"></i> Main</a></li>
+              </ul>
+            </li>
+            <li class="treeview active">
+              <a href="#">
+                <i class="fa fa-edit"></i> <span>Forms</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul style="display: block;" class="treeview-menu menu-open">
+                <li class="active"><a href="/contests"><i class="fa fa-circle-o"></i> Contests </a></li>
+                <li><a href="/promos"><i class="fa fa-circle-o"></i> Promos</a></li>
+                <li><a href="/newsfeeds"><i class="fa fa-circle-o"></i> News Feeds</a></li>
+              </ul>
+            </li>
+          </ul><!-- /.sidebar-menu -->
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+{% endblock sidebar %}
+
+{% block content %}
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Contests
+            <small>Multiple choice contest mostly Jack Daniels trivas</small>
+            <small>{{ request.path }}</small>
+          </h1>
+
+
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+            <li class="active">Contests</li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <!-- Your Page Content Here -->
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="box">
+                <div class="box-header">
+                  <h3 class="box-title">Contest(s)</h3>
+                  <div class="box-tools">
+                    <div class="input-group" style="width: 150px;">
+                      <input name="table_search" class="form-control input-sm pull-right" placeholder="Search" type="text">
+                      <div class="input-group-btn">
+                        <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                  <table class="table table-hover">
+                    <tbody><tr>
+                      <th>ID</th>
+                      <th>Title</th>
+                      <th>Date Created</th>
+                      <th>Date Published</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                    <tr>
+                      <td>1</td>
+                      <td>"Jack" was a nickname for Mr. ?</td>
+                      <td>10-9-2015</td>
+                      <td>10-12-2015</td>
+                      <td><span class="label label-success">Approved</span></td>
+                      <td>
+                          <button type="button" class="btn btn-default btn-xs"><i class="fa fa-edit"></i></button>
+                          <button type="button" class="btn btn-default btn-xs"><i class="fa fa-trash"></i></button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>How many siblings did Jack had?</td>
+                      <td>10-9-2015</td>
+                      <td>10-12-2015</td>
+                      <td><span class="label label-success">Approved</span></td>
+                      <td>
+                          <button type="button" class="btn btn-default btn-xs"><i class="fa fa-edit"></i></button>
+                          <button type="button" class="btn btn-default btn-xs"><i class="fa fa-trash"></i></button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td>At what age did Jack registered his distillery?</td>
+                      <td>10-9-2015</td>
+                      <td>10-12-2015</td>
+                      <td><span class="label label-success">Approved</span></td>
+                      <td>
+                          <button type="button" class="btn btn-default btn-xs"><i class="fa fa-edit"></i></button>
+                          <button type="button" class="btn btn-default btn-xs"><i class="fa fa-trash"></i></button>
+                      </td>
+                    </tr>
+                  </tbody></table>
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Create new contest</h3>
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                <form role="form">
+                  <div class="row">
+                    <div class=col-md-6>
+                      <div class="box-body">
+                        <div class="form-group">
+                          <label for="contest_title">Title</label>
+                          <input class="form-control" id="contest_title" placeholder="Title..." type="text">
+                        </div>
+                        <div class="form-group">
+                          <label>Description</label>
+                          <textarea class="form-control" rows="3" placeholder="Description..."></textarea>
+                        </div>
+                        <!-- Date and time range -->
+                        <div class="form-group">
+                          <label>Publish Date and time:</label>
+                          <div class="input-group">
+                            <div class="input-group-addon">
+                              <i class="fa fa-clock-o"></i>
+                            </div>
+                            <input class="form-control pull-right" id="reservationtime" type="text">
+                          </div><!-- /.input group -->
+                        </div><!-- /.form group -->
+                      </div><!-- /.box-body -->
+                    </div>
+                    <div class=col-md-6>
+                      <div class="box-body">
+                        <div class="form-group">
+                          <label>Question</label>
+                          <textarea class="form-control" rows="3" placeholder="Question..."></textarea>
+                        </div>
+                        <div class="form-group">
+                          <div class="radio">
+                            <label>
+                              <input name="contest_answers" id="contest_answer_1" value="option1" checked="" type="radio">
+                              Answer 1
+                            </label>
+                            <button type="button" class="btn btn-default btn-xs"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-default btn-xs"><i class="fa fa-trash"></i></button>
+                          </div>
+                          <div class="radio">
+                            <label>
+                              <input name="contest_answers" id="contest_answer_2" value="option2" type="radio">
+                              Answer 2
+                            </label>
+                            <button type="button" class="btn btn-default btn-xs"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-default btn-xs"><i class="fa fa-trash"></i></button>
+                          </div>
+                          <div class="radio">
+                            <label>
+                              <input name="contest_answers" id="contest_answer_3" value="option3" type="radio">
+                              Answer 3
+                            </label>
+                            <button type="button" class="btn btn-default btn-xs"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-default btn-xs"><i class="fa fa-trash"></i></button>
+                          </div>
+                        </div>
+                        <div class="input-group margin">
+                          <input class="form-control" type="text">
+                          <span class="input-group-btn">
+                            <button class="btn btn-info btn-flat" type="button">Add answer</button>
+                          </span>
+                        </div>
+
+                      </div>
+                      <!-- div.row -->
+                    </div>
+                  </div>
+                  <div class="box-footer">
+                    <button type="submit" class="btn btn-primary">Create contest</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+          </div>
+
+
+
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+{% endblock content %}
