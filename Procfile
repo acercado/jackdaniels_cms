@@ -1,1 +1,1 @@
-web: gunicorn jackdaniels_web.wsgi --log-file -
+web: gunicorn jackdaniels_web.wsgi
