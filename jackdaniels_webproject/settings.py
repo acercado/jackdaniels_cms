@@ -105,6 +105,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 if not os.environ.get("HOME") == "/home/acercado":
     # Parse database configuration from $DATABASE_URL
