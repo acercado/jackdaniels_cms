@@ -1,1 +1,1 @@
-web: gunicorn jackdaniels_web.wsgi
+web: gunicorn jackdaniels_webproject.wsgi
