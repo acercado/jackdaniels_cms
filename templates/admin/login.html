@@ -35,7 +35,7 @@
         <p class="login-box-msg">Sign in to start your session</p>
         <form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
           <div class="form-group has-feedback">
-            <input type="text" name="username" class="form-control" id="id_username" placeholder="Username" maxlength="254">
+            <input type="email" name="username" class="form-control" id="id_username" placeholder="Email..." maxlength="254">
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
           {% if form.username.errors %}

@@ -1,0 +1,14 @@
+<style>
+.accounts .modal {
+  position: relative;
+  top: auto;
+  bottom: auto;
+  right: auto;
+  left: auto;
+  display: block;
+  z-index: 1;
+}
+.accounts .modal {
+  background: transparent !important;
+}
+</style>

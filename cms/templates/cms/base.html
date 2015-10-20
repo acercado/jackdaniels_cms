@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Starter</title>
+    <title>Jack Daniels CMS</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -22,10 +22,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
           page. However, you can choose any other skin. Make sure you
           apply the skin class to the body tag so the changes take effect.
     -->
+    <!-- DataTables -->
+  {% if request.path|slice:":9" == '/location'%}
+    <link rel="stylesheet" href="{% static "plugins/datatables/dataTables.bootstrap.css" %}">
     <link rel="stylesheet" href="{% static "plugins/daterangepicker/daterangepicker-bs3.css" %}">
+  {% endif %}
     <link rel="stylesheet" href="{% static "plugins/timepicker/bootstrap-timepicker.min.css" %}">
     <link rel="stylesheet" href="{% static "dist/css/skins/skin-black.min.css" %}">
-
+  {% if request.path|slice:":9" == '/location'%}
+    {% include 'cms/maps.css' %}
+  {% endif %}
+  {% if request.path|slice:":18" == '/location/accounts'%}
+    {% include 'cms/modals.css' %}
+  {% endif %}
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -57,10 +66,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="wrapper">
 
       <!-- Main Header -->
-      {% include 'cms/header.html' %}
+      {% include 'cms/header.html' with someuser="gohan" %}
       <!-- Left side column. contains the logo and sidebar -->
-      {% block sidebar %}
-      {% endblock sidebar %}
+      {# block sidebar #}
+      {# endblock sidebar #}
+      {% include 'cms/sidebar.html' %}
 
       <!-- Content Wrapper. Contains page content -->
       {% block content %}
@@ -158,13 +168,201 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
     <script src="{% static "plugins/daterangepicker/daterangepicker.js" %}"></script>
     <script src="{% static "plugins/timepicker/bootstrap-timepicker.min.js" %}"></script>
+  {% if request.path|slice:":9" == '/location'%}
+    <script src="{% static "plugins/datatables/jquery.dataTables.min.js" %}"></script>
+    <script src="{% static "plugins/datatables/dataTables.bootstrap.min.js" %}"></script>
+  {% endif %}
     <script>
       $(function () {
         //Date range picker
         $('#reservation').daterangepicker();
         //Date range picker with time picker
         $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'});
-      })
+        $('#example1').DataTable();
+        var table1 = $('#example1').DataTable();
+        var rowToDelete;
+        $('#example1 tbody').on( 'click', 'a.modal_acct_del', function () {
+            rowToDelete = table1.row( $(this).parents('tr') );
+            var rowNode = rowToDelete.node();
+            console.log(rowNode);
+            // row.remove();
+         
+            // table2
+            //     .row.add( rowNode )
+            //     .draw();
+        } );
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+        $('#loc_new_acct_cancel').on('click', function() {
+          window.location.href="/location/accounts";
+        });
+        $('a.modal_acct_del').on('click', function(){
+          var acct_name = $(this).data('acct-name');
+          var acct_id = $(this).data('acct-id');
+          console.log(acct_name);
+          $(".modal_acct_delete_text").text(acct_name);
+          $("#modal_acct_delete_val").val(acct_id);
+        });
+        $('button#modal_acct_del_btn').on('click', function() {
+          // $.post('/location/accounts/delete/' + $("#modal_acct_delete_val").val(), function() {
+          //   $('#modal_acct_deleted').modal('show');
+          // });
+          $.post('/location/accounts/delete/' + $("#modal_acct_delete_val").val())
+            .done(function() {
+              rowToDelete.remove();
+              table1.draw();
+              $('#modal_acct_deleted').modal('show');
+              // console.log('Record deleted: ' + $("#model_acct_delete_val").val());
+              // window.location.href="/location/accounts/delete/"+$("#modal_acct_delete_val").val();
+              
+            });
+        });
+        // $('#form_loc_new_acct').submit(function(e){
+        //   e.preventDefault();
+        //   var form = this;
+        //   $('#modal_acct_delete').modal('show');
+          // form.submit();
+        // });        
+    });
+    {% if request.path == '/location/accounts/new' %}
+          // var e = jQuery.Event("keydown");
+          // e.which = 50; // # Some key code value
+          // $("#id_address").val("Tides Grill & Bistro").trigger(e);
+          function initAutocomplete() {
+            if (navigator.geolocation) {
+
+            } else {
+              alert('Sorry your browser doesn\'t support the Geolocation API');
+            }
+
+            navigator.geolocation.getCurrentPosition(feedPosition, errorPosition);
+
+            function errorPosition() {                  
+                alert('Sorry couldn\'t find your location');                 
+                pretext.show();         
+            }
+
+            function feedPosition(position) {
+              latitude = position.coords.latitude;
+              longitude  = position.coords.longitude;
+
+              var latlng = new google.maps.LatLng(latitude, longitude);
+              var myOptions = {
+                  zoom: 16,
+                  center: latlng,
+                  mapTypeId: google.maps.MapTypeId.ROADMAP
+              };
+
+              // var map = new google.maps.Map(document.getElementById('map'), {
+              //   center: {lat: -33.8688, lng: 151.2195},
+              //   zoom: 13,
+              //   mapTypeId: google.maps.MapTypeId.ROADMAP
+              // });
+
+              var map = new google.maps.Map(document.getElementById('map'), myOptions);
+
+              // Create the search box and link it to the UI element.
+              var input = document.getElementById('id_address');
+              var searchBox = new google.maps.places.SearchBox(input);
+              // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+              // Bias the SearchBox results towards current map's viewport.
+              map.addListener('bounds_changed', function() {
+                searchBox.setBounds(map.getBounds());
+              });
+              var markers = [];
+              // [START region_getplaces]
+              // Listen for the event fired when the user selects a prediction and retrieve
+              // more details for that place.
+              searchBox.addListener('places_changed', function() {
+                var places = searchBox.getPlaces();
+
+                if (places.length == 0) {
+                  return;
+                }
+
+                // Clear out the old markers.
+                markers.forEach(function(marker) {
+                  marker.setMap(null);
+                });
+                markers = [];
+
+                // For each place, get the icon, name and location.
+                var bounds = new google.maps.LatLngBounds();
+                places.forEach(function(place) {
+                  var icon = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                  };
+
+                  // Create a marker for each place.
+                  markers.push(new google.maps.Marker({
+                    map: map,
+                    icon: icon,
+                    title: place.name,
+                    position: place.geometry.location
+                  }));
+
+                  if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                  } else {
+                    bounds.extend(place.geometry.location);
+                  }
+                });
+                map.fitBounds(bounds);
+              });
+              // [END region_getplaces]
+            }
+
+          }
+    {% endif %}
+
     </script>
+  {% if request.path == '/location/accounts/new' %}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAM2BLX6_LCK8zpZxUZtw_rdFTOkvjxJH4&libraries=places&callback=initAutocomplete"
+         async defer></script>
+  {% endif %}
+  {% if mode == 'edited' %}
+    <script>
+      $('#modal_acct_edited').modal('show');
+    </script>
+  {% endif %}
+  {% if request.path|slice:":18" == '/location/products' %}
+    <script>
+
+    </script>
+  {% endif %}
+
   </body>
+
 </html>

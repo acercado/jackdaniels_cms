@@ -37,7 +37,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'widget_tweaks',
     'cms',
+    'news',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -77,11 +79,15 @@ WSGI_APPLICATION = 'jackdaniels_webproject.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        # 'NAME': 
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'jd_20151009',
+        'USER': 'acercado',
+        'PASSWORD': 'Hxofruv92qoF',
     }
 }
 
@@ -116,3 +122,5 @@ if not os.environ.get("HOME") == "/home/acercado":
     DATABASES['default'] = dj_database_url.config()
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+AUTH_USER_MODEL = 'cms.MyUser'
